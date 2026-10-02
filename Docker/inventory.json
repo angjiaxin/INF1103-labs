@@ -25,5 +25,14 @@
         "history": [
             25
         ]
+    },
+    {
+        "id": "P006",
+        "name": "Berry",
+        "price": 5.0,
+        "stock": 4,
+        "history": [
+            4
+        ]
     }
 ]
