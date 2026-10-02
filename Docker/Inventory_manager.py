@@ -72,6 +72,11 @@ def load_inventory(filename):
     except json.JSONDecodeError:
         print("Error: File is unreadable. Starting with an empty inventory.")
         return []
+    
+def save_inventory(filename, inventory):
+    with open(filename, "w") as f:
+        json.dump(inventory, f, indent=4)
+    print("Inventory saved successfully!")
 # ---------------- Data manipulation ----------------
 
 def display_all(inventory):
@@ -190,8 +195,9 @@ def main():
         elif choice == "4":
             search_product(inventory)
         elif choice == "5":
-            print("Save not available yet.")
+            save_inventory(FILENAME, inventory)
         elif choice == "6":
+            save_inventory(FILENAME, inventory)
             print("Goodbye!")
             break
         else:
