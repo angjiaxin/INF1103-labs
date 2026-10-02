@@ -1,3 +1,7 @@
+import os
+import json
+
+FILENAME = 'inventory.json'
 OVERSTOCK_LIMIT = 500
 
 
@@ -50,7 +54,24 @@ def print_product(product):
     print(f"ID: {product['id']} | Name: {product['name']} | "
           f"Price: ${product['price']:.2f} | Stock: {product['stock']}")
 
+# ---------------- Data persistence ----------------
 
+def load_inventory(filename):
+    """Loads the inventory list from JSON if the file exists, else starts empty."""
+    if not os.path.exists(filename):
+        print(f"{filename} not found.")
+        print("Starting with an empty inventory.")
+        return []
+
+    print(f"{filename} found.")
+    try:
+        with open(filename, "r") as f:
+            inventory = json.load(f)
+        print("Inventory loaded successfully.")
+        return inventory
+    except json.JSONDecodeError:
+        print("Error: File is unreadable. Starting with an empty inventory.")
+        return []
 # ---------------- Data manipulation ----------------
 
 def display_all(inventory):
@@ -154,11 +175,7 @@ def main():
     print("=" * 40)
     print()
 
-    inventory = [
-        {"id": "P001", "name": "Laptop", "price": 1200.00, "stock": 15, "history": [15]},
-        {"id": "P002", "name": "Mouse", "price": 25.50, "stock": 40, "history": [40]},
-        {"id": "P003", "name": "Keyboard", "price": 45.00, "stock": 25, "history": [25]},
-    ]
+    inventory = load_inventory(FILENAME)
 
     while True:
         show_menu()
