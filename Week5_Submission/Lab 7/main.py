@@ -1,8 +1,10 @@
 import os
 import json
 
-from product import Product
 from inventory import Inventory
+from physical_product import PhysicalProduct
+from digital_product import DigitalProduct
+from can_be_shipped import CanBeShipped
 
 FILENAME = 'inventory.json'
 OVERSTOCK_LIMIT = 500
@@ -19,21 +21,34 @@ def get_valid_input(prompt):
     return int(stock)
 
 
-def get_valid_price(prompt):
-    """Returns a non-negative float, or None if the input is invalid."""
-    price = input(prompt).strip()
+def get_valid_number(prompt):
+    """Returns a non-negative float, or None if the input is invalid.
+    Used for price, weight and download size."""
+    text = input(prompt).strip()
     try:
-        value = float(price)
+        value = float(text)
     except ValueError:
-        print("Error: Invalid price. Please enter a number.")
+        print("Error: Invalid number. Please enter a number.")
         return None
     if value < 0:
-        print("Error: Price cannot be negative.")
+        print("Error: Value cannot be negative.")
         return None
     return value
 
 
 # ---------------- File handling ----------------
+
+def create_product_from_dict(item):
+    """Uses the saved 'type' to rebuild the correct subclass."""
+    product_type = item.get("type", "physical")  # Lab 6 data has no type: treat as physical
+
+    if product_type == "digital":
+        return DigitalProduct(item["id"], item["name"], item["price"], item["stock"],
+                              item["download_size"], item.get("history"))
+
+    return PhysicalProduct(item["id"], item["name"], item["price"], item["stock"],
+                           item.get("weight", 0.0), item.get("history"))
+
 
 def load_inventory(filename):
     """Builds an Inventory object from the JSON file (or an empty one)."""
@@ -49,9 +64,7 @@ def load_inventory(filename):
         with open(filename, "r") as f:
             data = json.load(f)
         for item in data:
-            product = Product(item["id"], item["name"], item["price"],
-                              item["stock"], item.get("history"))
-            inventory.add_product(product)
+            inventory.add_product(create_product_from_dict(item))
         print("Inventory loaded successfully.")
     except (json.JSONDecodeError, KeyError):
         print("Error: File is unreadable. Starting with an empty inventory.")
@@ -71,6 +84,13 @@ def save_inventory(filename, inventory):
 
 def add_product_menu(inventory):
     print("\nAdd New Product")
+    print("1. Physical Product")
+    print("2. Digital Product")
+    product_type = input("Choose product type (1-2): ").strip()
+    if product_type not in ("1", "2"):
+        print("Error: Please enter 1 or 2.")
+        return
+
     product_id = input("Product ID: ").strip().upper()
     if product_id == "":
         print("Error: Product ID cannot be empty.")
@@ -84,7 +104,7 @@ def add_product_menu(inventory):
         print("Error: Product name cannot be empty.")
         return
 
-    price = get_valid_price("Price: ")
+    price = get_valid_number("Price: ")
     if price is None:
         return
 
@@ -92,7 +112,18 @@ def add_product_menu(inventory):
     if stock is None:
         return
 
-    inventory.add_product(Product(product_id, name, price, stock))
+    if product_type == "1":
+        weight = get_valid_number("Weight (kg): ")
+        if weight is None:
+            return
+        product = PhysicalProduct(product_id, name, price, stock, weight)
+    else:
+        download_size = get_valid_number("Download Size (MB): ")
+        if download_size is None:
+            return
+        product = DigitalProduct(product_id, name, price, stock, download_size)
+
+    inventory.add_product(product)
     print("\nProduct added successfully!")
 
 
@@ -130,7 +161,11 @@ def search_product_menu(inventory):
 
     for product in matches:
         product.display_information()
-        print(f"Transaction History: {product.get_history()}")
+        print(f"    Fulfilment: {product.get_fulfilment_info()}")
+        # Only products that signed the CanBeShipped contract have a shipping cost
+        if isinstance(product, CanBeShipped):
+            print(f"    Shipping Cost: ${product.calculate_shipping_cost():.2f}")
+        print(f"    Transaction History: {product.get_history()}")
 
 
 # ---------------- Menu system ----------------
