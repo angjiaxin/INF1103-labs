@@ -34,5 +34,14 @@
         "history": [
             4
         ]
+    },
+    {
+        "id": "S001",
+        "name": "Berry",
+        "price": 4.0,
+        "stock": 5,
+        "history": [
+            5
+        ]
     }
 ]
