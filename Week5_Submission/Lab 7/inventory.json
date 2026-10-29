@@ -6,7 +6,9 @@
         "stock": 15,
         "history": [
             15
-        ]
+        ],
+        "type": "physical",
+        "weight": 0.0
     },
     {
         "id": "P002",
@@ -15,7 +17,9 @@
         "stock": 40,
         "history": [
             40
-        ]
+        ],
+        "type": "physical",
+        "weight": 0.0
     },
     {
         "id": "P003",
@@ -24,7 +28,9 @@
         "stock": 25,
         "history": [
             25
-        ]
+        ],
+        "type": "physical",
+        "weight": 0.0
     },
     {
         "id": "P006",
@@ -33,7 +39,9 @@
         "stock": 4,
         "history": [
             4
-        ]
+        ],
+        "type": "physical",
+        "weight": 0.0
     },
     {
         "id": "S001",
@@ -42,6 +50,30 @@
         "stock": 5,
         "history": [
             5
-        ]
+        ],
+        "type": "physical",
+        "weight": 0.0
+    },
+    {
+        "id": "P020",
+        "name": "Guitar",
+        "price": 350.0,
+        "stock": 10,
+        "history": [
+            10
+        ],
+        "type": "physical",
+        "weight": 3.5
+    },
+    {
+        "id": "D020",
+        "name": "Antivirus",
+        "price": 49.9,
+        "stock": 100,
+        "history": [
+            100
+        ],
+        "type": "digital",
+        "download_size": 850.0
     }
 ]
