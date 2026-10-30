@@ -1,0 +1,77 @@
+﻿commit a8b156db3b33cfba085d4eb39beb9aa94406a8ac
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Oct 2 11:25:03 2026 +0800
+
+    Add Dockerfile and run with volume mount
+
+commit 20766f90014cdf42660db202dc94aa078f87edb6
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Oct 2 11:18:34 2026 +0800
+
+    Rename to inventory_manager.py
+
+commit 127db4306951dfb51631b2a5b8f46ebfe9dcac90
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Oct 2 11:17:10 2026 +0800
+
+    Add save_inventory and verify data persistence
+
+commit 571842cadaaf2aac028ec24f458741f0b6a7dc99
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Oct 2 11:11:54 2026 +0800
+
+    Add load_inventory to read from inventory.json
+
+commit d56c6adf9ca90c891146f5795d84bcccae8adf29
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Oct 2 10:50:33 2026 +0800
+
+    Create inventory dictionary and add products
+
+commit ec86792272378cfe3e859761f484140bb9a6275d
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 25 11:10:41 2026 +0800
+
+    Add save_inventory
+
+commit 2555079628e31a24f491eb4d6de76e0e1d5ce1b8
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 18 10:38:17 2026 +0800
+
+    Refactor auditor.py into modular functions with tax calc
+
+commit 6ad3cdbbad23663c29a568b37b87183866a50fa5
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 11 10:53:47 2026 +0800
+
+    auditor.py
+
+commit 0c29ef2ff522529f62baa5e2e0347a0eb084062e
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 4 11:23:38 2026 +0800
+
+    Activity 5
+
+commit 26fa8a91120c12d8613edcaa94144742069401d4
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 4 11:18:47 2026 +0800
+
+    Activity 4
+
+commit e76eaf4ef25b3fcaf8e2b00d9af71cab8fdae82b
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 4 11:12:40 2026 +0800
+
+    Activity 3
+
+commit c5068b5e70271668f3446e615e32c99a9931414b
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 4 11:04:16 2026 +0800
+
+    coolcreator
+
+commit 6743f9128d9e9e23cdaedddc70abbe5c6f97fdf5
+Author: AngJiaXin <2605693@sit.singaporetech.edu.sg>
+Date:   Fri Sep 4 10:53:49 2026 +0800
+
+    First Post
