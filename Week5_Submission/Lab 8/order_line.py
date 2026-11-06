@@ -1,38 +1,29 @@
-class Inventory:
-    """Responsibility: manage a COLLECTION of Product objects.
-    It works with any kind of Product (physical or digital) and calls
-    their methods, but never does a product's job for it."""
+from product import Product
 
-    def __init__(self):
-        self.__products = []
 
-    def add_product(self, product):
-        """Adds a Product. Returns False if the ID already exists."""
-        if self.find_product(product.get_product_id()) is not None:
-            return False
-        self.__products.append(product)
-        return True
+class OrderLine:
+    """Responsibility: ONE product and the quantity of it within an order.
 
-    def find_product(self, product_id):
-        """Returns the Product with this exact ID, or None."""
-        for product in self.__products:
-            if product.get_product_id() == product_id.upper():
-                return product
-        return None
+    Composition: an OrderLine is created by an Order and belongs to that Order
+    only. It is never created elsewhere or moved to another Order.
 
-    def search_product(self, term):
-        """Returns a list of Products whose ID or name matches the term."""
-        return [p for p in self.__products if p.matches(term)]
+    Association: the OrderLine refers to a Product, but does not own it.
+    """
 
-    def display_all(self):
-        print("\nCurrent Inventory")
-        print("-" * 55)
-        if not self.__products:
-            print("Inventory is empty.")
-        for product in self.__products:
-            product.display_information()  # each product type displays itself
-        print("-" * 55)
+    def __init__(self, product: Product, quantity: int):
+        self.__product: Product = product   # reference only (association)
+        self.__quantity: int = quantity
 
-    def get_products(self):
-        return list(self.__products)
-    
+    def get_product(self) -> Product:
+        return self.__product
+
+    def get_quantity(self) -> int:
+        return self.__quantity
+
+    def calculate_subtotal(self) -> float:
+        return self.__product.get_price() * self.__quantity
+
+    def display_information(self) -> None:
+        print(f"{self.__product.get_product_id()} | {self.__product.get_name()} | "
+              f"Qty: {self.__quantity} x ${self.__product.get_price():.2f} = "
+              f"${self.calculate_subtotal():.2f}")

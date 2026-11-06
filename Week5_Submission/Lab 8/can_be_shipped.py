@@ -7,5 +7,5 @@ class CanBeShipped(ABC):
     No attributes and no implementation details live here."""
 
     @abstractmethod
-    def calculate_shipping_cost(self):
+    def calculate_shipping_cost(self) -> float:
         pass

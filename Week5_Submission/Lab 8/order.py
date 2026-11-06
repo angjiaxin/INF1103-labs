@@ -1,77 +1,51 @@
-from abc import ABC, abstractmethod
+from product import Product
+from order_line import OrderLine
 
-TAX_RATE = 0.10
 
+class Order:
+    """Responsibility: manage ONE customer order.
 
-class Product(ABC):
-    """Responsibility: represent and manage ONE product.
-
-    Abstract class: every product must be either physical or digital,
-    so a plain Product can never be created directly.
+    Composition: the Order creates its own OrderLine objects inside
+    add_order_line(). OrderLines are never passed in from outside, and when
+    a line is removed (or the Order goes away) the OrderLine goes with it.
     """
 
-    def __init__(self, product_id, name, price, stock, history=None):
-        self.__product_id = product_id.upper()
-        self.__name = name
-        self.__price = price
-        self.__stock = stock
-        # If no history is given (brand new product), start it with the opening stock
-        if history is None:
-            self.__history = [stock]
-        else:
-            self.__history = history
+    def __init__(self, order_id: str):
+        self.__order_id: str = order_id.upper()
+        self.__order_lines: list[OrderLine] = []
 
-    # ---------- Abstract method (each child MUST implement this) ----------
-    @abstractmethod
-    def get_fulfilment_info(self):
-        pass
+    def get_order_id(self) -> str:
+        return self.__order_id
 
-    # ---------- Getters (read-only access from outside) ----------
-    def get_product_id(self):
-        return self.__product_id
+    def add_order_line(self, product: Product, quantity: int) -> None:
+        """Takes a Product and quantity, and CREATES the OrderLine internally."""
+        if quantity <= 0:
+            raise ValueError("Order quantity must be at least 1.")
+        order_line = OrderLine(product, quantity)
+        self.__order_lines.append(order_line)
 
-    def get_name(self):
-        return self.__name
+    def remove_order_line(self, product_id: str) -> bool:
+        """Removes the line for this product. The OrderLine is discarded with it,
+        but the Product itself still exists."""
+        for order_line in self.__order_lines:
+            if order_line.get_product().get_product_id() == product_id.upper():
+                self.__order_lines.remove(order_line)
+                return True
+        return False
 
-    def get_price(self):
-        return self.__price
+    def get_order_lines(self) -> list[OrderLine]:
+        return list(self.__order_lines)  # copy, so lines can't be added from outside
 
-    def get_stock(self):
-        return self.__stock
+    def calculate_total(self) -> float:
+        """Asks each OrderLine for its own subtotal."""
+        return sum(order_line.calculate_subtotal() for order_line in self.__order_lines)
 
-    def get_history(self):
-        return list(self.__history)  # return a copy so outside code can't change it
-
-    # ---------- Behaviour ----------
-    def update_stock(self, quantity):
-        """Adds a delivery to stock. The Product decides what is allowed."""
-        if quantity < 0:
-            raise ValueError("Delivery quantity cannot be negative.")
-        self.__stock += quantity
-        self.__history.append(quantity)
-
-    def calculate_tax(self, amount):
-        return amount * TAX_RATE
-
-    def is_overstocked(self, limit):
-        return self.__stock > limit
-
-    def matches(self, term):
-        """True if term equals the ID or appears in the name (case-insensitive)."""
-        term = term.lower()
-        return term == self.__product_id.lower() or term in self.__name.lower()
-
-    def display_information(self):
-        """Common information. Child classes add their own details after this."""
-        print(f"ID: {self.__product_id} | Name: {self.__name} | "
-              f"Price: ${self.__price:.2f} | Stock: {self.__stock}")
-
-    def to_dict(self):
-        """Common data for saving. Child classes add their type and extra fields."""
-        return {
-            "id": self.__product_id,
-            "name": self.__name,
-            "price": self.__price,
-            "stock": self.__stock,
-            "history": self.__history
-        }
+    def display_information(self) -> None:
+        print(f"\nOrder {self.__order_id}")
+        print("-" * 55)
+        if not self.__order_lines:
+            print("No items in this order.")
+        for order_line in self.__order_lines:
+            order_line.display_information()
+        print("-" * 55)
+        print(f"Order Total: ${self.calculate_total():.2f}")
