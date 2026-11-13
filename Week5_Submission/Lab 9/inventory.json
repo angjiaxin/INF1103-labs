@@ -1,0 +1,34 @@
+[
+    {
+        "id": "P030",
+        "name": "Keyboard",
+        "price": 45.0,
+        "stock": 20,
+        "history": [
+            20
+        ],
+        "supplier": {
+            "supplier_id": "SUP001",
+            "name": "TechSource",
+            "contact_email": "sales@techsource.sg"
+        },
+        "type": "physical",
+        "weight": 1.2
+    },
+    {
+        "id": "D030",
+        "name": "Office Suite",
+        "price": 120.0,
+        "stock": 50,
+        "history": [
+            50
+        ],
+        "supplier": {
+            "supplier_id": "SUP001",
+            "name": "TechSource",
+            "contact_email": "sales@techsource.sg"
+        },
+        "type": "digital",
+        "download_size": 2000.0
+    }
+]
